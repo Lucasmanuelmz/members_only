@@ -1,0 +1,50 @@
+<%-include('./partials/head.ejs')%>
+<%-include('./partials/header.ejs')%>
+<div class="max-w-3xl mx-auto mt-10">
+  <% messages.forEach(message => { %> 
+    <% if (currentUser) { %> 
+      <div class="overflow-y-auto  overflow-hidden p-6">
+        <div class="p-4 bg-green-100 mb-11 max-w-3xl border-l-4 border-green-500 text-green-700">
+          <h3 class="font-bold text-xl">Welcome, <%= currentUser.firstname %>!</h3>
+          <p class="mt-2 text-xs">Thank you for being a part of our community! As a member, you have full access to all features. Feel free to explore, interact, and contribute to our community.</p>
+          <a href="/explore" class="inline-block mt-4 text-xs px-5 py-2.5 bg-green-500 text-white rounded-full hover:bg-green-600">Explore more features</a>
+        </div>
+
+        <div class="items-start max-w-xl mx-auto flex gap-2.5 mb-[45px]">
+          <span class="text-sm font-semibold text-zinc-700">Author:</span>
+          <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">
+                <%= message.author_name %> <%= message.father_name %>
+              </span>
+              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= message.createdat %>
+              </span>
+            </div>
+            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white"><%= message.message %></p>
+            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+          </div>
+        </div>
+      </div>
+    <% } else { %> 
+      <div class="p-4 bg-yellow-100 max-w-3xl border-l-4 border-yellow-500 text-yellow-700 mb-[45px]">
+        <h3 class="font-bold text-sm">Become a Member and Enjoy All the Benefits!</h3>
+        <p class="mt-2 text-xs">You are viewing this page as a guest. As a member, you will have exclusive access to all features, including the ability to view, comment, and create new messages, as well as interact with other community members.</p>
+        <p class="mt-4 font-semibold text-xs" >Don't wait any longer! Become a member now and start enjoying these incredible benefits!</p>
+        <a href="/signup" class="inline-block mt-4 px-5 text-xs py-2.5 bg-blue-500 text-white rounded-full hover:bg-blue-600">Become a member</a>
+      </div>
+      <div class="flex items-start gap-2.5 mb-[45px]">
+        <span class="text-sm font-semibold text-zinc-700">Author:</span>
+        <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+          <div class="flex items-center space-x-2 rtl:space-x-reverse">
+            <span class="text-sm font-semibold text-gray-900 dark:text-white">Anonymous</span>
+            <span class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= message.createdat %></span>
+          </div>
+          <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white"><%= message.message %></p>
+          <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+        </div>
+      </div>
+    <% } %>
+  <% }) %>
+</div>
+<%-include('./partials/footer.ejs')%>
