@@ -1,0 +1,12 @@
+<div>
+  <%errors.forEach(error => {%>
+    <ul>
+      <li><%=error.type%></li>
+      <li><%=error.value%></li>
+      <li><%=error.msg%></li>
+      <li><%=error.path%></li>
+      <li><%=error.location%></li>
+    </ul>
+ <% })%>
+</div>
+

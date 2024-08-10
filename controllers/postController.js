@@ -4,15 +4,13 @@ const {body, validationResult} = require('express-validator');
 
 const validationPost = [
   body('title').trim()
-    .matches(/^[a-zA-Z0-9\s]+$/).withMessage('Title must contain only alphabetic characters and spaces')
-    .isLength({ min: 1, max: 255 }).withMessage('Title must be between 1 and 255 characters long'),
+  .isLength({ min: 1, max: 300 }).withMessage('Title must be between 1 and 300 characters long'),
 
   body('message').trim()
-    .matches(/^[a-zA-Z0-9\s]+$/).withMessage('Message must contain only alphabetic and numeric characters')
     .isLength({ min: 1, max: 2000 }).withMessage('Message must be between 1 and 2000 characters long'),
 
-  body('memberId').trim()
-    .isNumeric().withMessage('Member ID must be a numeric value')
+  body('userId').trim()
+    .optional()
 ];
 
 exports.createPostDb =[
@@ -20,13 +18,14 @@ exports.createPostDb =[
   expressAsyncHandler(async(req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
-   return res.status(400).render('posts', {
+    console.log(errors.array())
+   return res.status(400).render('errors', {
       title: 'Errors',
       errors: errors.array()
     });
   }
-  const {message, userId} = req.body;
-  await db.createPost(message, userId);
+  const {title, message, userId} = req.body;
+  await db.createPost(title, message, userId);
   res.redirect('/')
 })];
 
@@ -36,19 +35,23 @@ exports.getPostDb = expressAsyncHandler(async(req, res) => {
   res.render('post', {post})
 });
 
-exports.updatePostDb =[
+exports.createMessage = expressAsyncHandler(async(req, res) => {
+  res.render('message')
+});
+
+exports.updatePostDb = [
   ...validationPost, 
   expressAsyncHandler(
    async(req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
-    return res.status(400).render('posts', {
+    return res.status(400).render('errors', {
       title: 'Errors',
       errors: errors.array()
     })
   }
-  const {message, id} = req.body;
-  await db.updatePost(message, id);
+  const {title, message, id} = req.body;
+  await db.updatePost(title, message, id);
   res.redirect('/')
 })]
 

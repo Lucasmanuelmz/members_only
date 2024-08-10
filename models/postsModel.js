@@ -1,10 +1,10 @@
 const postDb = require('../db/db');
 
-exports.createPost = async(message, userId) => {
+exports.createPost = async(title, message, userId) => {
   const client = await postDb.connect();
   try{
-  await client.query('INSERT INTO posts(message, user_id) VALUES ($1, $2)', 
-  [message, userId]);
+  await client.query('INSERT INTO posts(title, message, user_id) VALUES ($1, $2, $3)', 
+  [title, message, userId]);
   }catch(error) {
     throw Error('Failed to create the post. Please try again later.')
   }finally{
@@ -37,11 +37,11 @@ exports.getPostById = async (id) => {
   }
   } 
 
-exports.updatePost = async(message, id) => {
+exports.updatePost = async(title, message, id) => {
   const client = await postDb.connect();
   try {
-    await client.query('UPDATE posts SET message = $1 WHERE id = $2',
-    [message, id])
+    await client.query('UPDATE posts SET title = $1, message = $2 WHERE id = $3',
+    [title, message, id])
   } catch(error) {
     throw Error('Failed to update the post. Please try again later.')
   }finally{

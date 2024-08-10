@@ -38,7 +38,7 @@ exports.postNewUserInDB = [
 
   req.login(user, (err) => {
   if (err) { return next(err); };
-  res.redirect('/messages');
+  res.redirect('/');
 })
 } catch(error) {
   next(error);
@@ -78,7 +78,7 @@ exports.updateUser =[
   }
   const {firstname, lastname, email, id} = req.body;
     await db.updateUserFromDb(firstname, lastname, email, id);
-    res.redirect('/messages');
+    res.redirect('/');
 }
 )];
 
